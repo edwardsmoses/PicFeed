@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Platform } from 'react-native';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text style={styles.textStyle, styles.largeText}>PicFeed</Text>
+      <Text style={styles.textStyle}>Open up PicFeed to view all the sights of the world!</Text>
     </View>
   );
 }
@@ -16,4 +17,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  textStyle: {
+    fontFamily: Platform.OS === "ios" ? "AvenirNext-Regular" : "Roboto"
+  },
+  largeText: {
+    fontSize: 20
+  }
 });
