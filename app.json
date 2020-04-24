@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "edmiccky",
     "name": "PicFeed",
     "slug": "PicFeed",
     "platforms": [
@@ -23,6 +24,10 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.edwards.picfeed",
+      "versionCode": 1.0
     }
   }
 }
