@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Modal, StyleSheet, View, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { AsyncStorage, Modal, StyleSheet, View, Platform } from 'react-native';
 
 import Constants from 'expo-constants';
 
@@ -25,7 +25,7 @@ export default function App() {
 
   const closeCommentScreen = () => {
     setCommentState({ ...commentState, showModal: false, selectedItemId: null });
-  }
+  };
 
   const onSubmitComment = (text) => {
     const comments = commentState.allPicComments[commentState.selectedItemId] || [];
@@ -33,7 +33,28 @@ export default function App() {
       ...commentState.allPicComments, [commentState.selectedItemId]: [...comments, text],
     };
     setCommentState({ ...commentState, allPicComments: updated });
-  }
+
+    try {
+      AsyncStorage.setItem(ASYNC_STORAGE_COMMENTS_KEY, JSON.stringify(updated));
+    } catch (error) {
+      console.log('Failed to save comment', text, 'for', commentState.selectedItemId);
+    }
+  };
+
+  const ASYNC_STORAGE_COMMENTS_KEY = 'ASYNC_STORAGE_COMMENTS_KEY';
+
+  useEffect(() => {
+    try {
+      AsyncStorage.getItem(ASYNC_STORAGE_COMMENTS_KEY).then((storageComments) => {
+        setCommentState({ ...commentState, allPicComments: storageComments ? JSON.parse(storageComments) : {} })
+      });
+    } catch (error) {
+      console.log("failed to read comments from storage");
+    }
+    return () => {
+
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
