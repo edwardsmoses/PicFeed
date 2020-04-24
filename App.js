@@ -11,31 +11,42 @@ import Comments from "./screens/Comments";
 export default function App() {
 
 
-  const initModalState = {
-    itemComment: {},
+  const initcommentState = {
+    allPicComments: {},
     showModal: false,
     selectedItemId: null
   }
 
-  const [modalState, setModalState] = useState(initModalState);
+  const [commentState, setCommentState] = useState(initcommentState);
 
   const openCommentScreen = id => {
-    setModalState({ ...modalState, showModal: true, selectedItemId: id })
+    setCommentState({ ...commentState, showModal: true, selectedItemId: id })
   };
 
   const closeCommentScreen = () => {
-    setModalState({ ...modalState, showModal: false, selectedItemId: null });
+    setCommentState({ ...commentState, showModal: false, selectedItemId: null });
+  }
+
+  const onSubmitComment = (text) => {
+    const comments = commentState.allPicComments[commentState.selectedItemId] || [];
+    const updated = {
+      ...commentState.allPicComments, [commentState.selectedItemId]: [...comments, text],
+    };
+    setCommentState({ ...commentState, allPicComments: updated });
   }
 
   return (
     <View style={styles.container}>
       <Feed style={styles.feed}
-        itemComments={initModalState.itemComment}
+        itemComments={commentState.allPicComments}
         onPressComments={openCommentScreen}
       ></Feed>
-      <Modal visible={modalState.showModal} animationType='slide' onRequestClose={closeCommentScreen}>
+      <Modal visible={commentState.showModal}
+        animationType='slide'
+        onRequestClose={closeCommentScreen}>
         <Comments style={styles.comments}
-          comments={initModalState.itemComment[initModalState.selectedItemId]}
+          comments={commentState.allPicComments[commentState.selectedItemId]}
+          onSubmitComment={onSubmitComment}
           onClose={closeCommentScreen} />
       </Modal>
     </View>

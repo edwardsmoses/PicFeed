@@ -19,7 +19,7 @@ const CommentInput = ({ onSubmit, placeholder = "Leave a comment..." }) => {
                 value={text}
                 placeholder={placeholder}
                 underlineColorAndroid='transparent'
-                onChangeText={() => setText}
+                onChangeText={(text) => { setText(text); }}
                 onSubmitEditing={handleSubmitEdit}
             />
         </View>
