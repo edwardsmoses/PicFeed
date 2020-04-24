@@ -5,9 +5,10 @@ import { ActivityIndicator, Text, SafeAreaView, StyleSheet, Platform, View } fro
 
 import { fetchImages } from '../utils/api';
 import CardList from '../components/CardList';
+import NavigationBar from "../components/navigation/NavigationBar";
 
 
-const Feed = ({ FeedStyle }) => {
+const Feed = ({ FeedStyle, itemComments, onPressComments }) => {
 
     const initFeedState = {
         loading: true,
@@ -45,7 +46,10 @@ const Feed = ({ FeedStyle }) => {
 
     return (
         <SafeAreaView style={FeedStyle}>
-            <CardList items={feedState.items} />
+            <NavigationBar title="PicFeed" />
+            <CardList items={feedState.items}
+                itemComments={itemComments}
+                onPressComments={onPressComments} />
         </SafeAreaView>
     )
 }
